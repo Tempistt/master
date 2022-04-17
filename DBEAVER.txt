@@ -1,0 +1,90 @@
+DQL
+
+select * from customers;
+
+select * from carts
+
+
+
+DML
+
+insert into customers values (1, 'testuser', 'password11!!', 'test', 'user', '123 street ave', 'city', 'st', 12345);
+insert into customers values (2, 'username', 2)
+
+
+
+
+DDL
+
+CREATE TABLE customers (
+    id serial,
+    username varchar NOT NULL,
+    password varchar NOT NULL,
+    firstname varchar NOT NULL,
+    lastname varchar NOT NULL,
+    address varchar NOT NULL,
+    city varchar NOT NULL,
+    state varchar NOT NULL,
+    zipcode int NOT null,
+    
+    constraint PK_customers_id
+    primary key(id)
+       
+);
+
+CREATE TABLE carts (
+    id serial,
+    items_id int   NOT NULL,
+    price int   NOT NULL,
+    stock int   NOT NULL
+);
+
+CREATE TABLE orderhistorys (
+    id serial,
+    items_id int   NOT NULL,
+    location varchar   NOT NULL,
+    date int   NOT NULL
+);
+
+CREATE TABLE items (
+    id serial,
+    items_id int   NOT NULL,
+    shirts varchar   NOT NULL,
+    pants varchar   NOT NULL,
+    shoes varchar   NOT NULL,
+    price int   NOT NULL
+);
+
+CREATE TABLE inventorylocations (
+    id serial,
+    items_id int   NOT NULL,
+    stock int   NOT NULL,
+    location_id int   NOT NULL
+); 
+
+ALTER TABLE customers ADD CONSTRAINT fk_customers_id FOREIGN KEY(id)
+REFERENCES items (id);
+
+ALTER TABLE carts ADD CONSTRAINT fk_carts_id_stock FOREIGN KEY(id, stock)
+REFERENCES inventorylocations (id, stock);
+
+ALTER TABLE orderhistorys ADD CONSTRAINT fk_orderhistorys_id FOREIGN KEY(id)
+REFERENCES items (id);
+
+ALTER TABLE orderhistorys ADD CONSTRAINT fk_orderhistorys_items_id FOREIGN KEY(items_id)
+REFERENCES carts (items_id);
+
+ALTER TABLE orderhistorys ADD CONSTRAINT fk_orderhistorys_location FOREIGN KEY(location)
+REFERENCES inventorylocations (location_id);
+
+ALTER TABLE items ADD CONSTRAINT fk_items_id_price FOREIGN KEY(id, price)
+REFERENCES carts (id, price);
+
+drop table if exists customers;
+drop table if exists items;
+drop table if exists customers;
+drop table if exists customers;
+
+select * from customers;
+select * from items;
+
